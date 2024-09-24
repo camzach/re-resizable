@@ -912,22 +912,19 @@ export class Resizable extends React.PureComponent<ResizableProps, State> {
       return null;
     }
     const resizers = directions
-      .filter(dir => enable[dir] !== false)
+      .filter(dir => enable[dir] === true || enable === undefined)
       .map(dir => {
-        if (enable[dir as Direction] !== false) {
-          return (
-            <Resizer
-              key={dir}
-              direction={dir as Direction}
-              onResizeStart={this.onResizeStart}
-              replaceStyles={handleStyles && handleStyles[dir as Direction]}
-              className={handleClasses && handleClasses[dir as Direction]}
-            >
-              {handleComponent && handleComponent[dir as Direction] ? handleComponent[dir as Direction] : null}
-            </Resizer>
-          );
-        }
-        return null;
+        return (
+          <Resizer
+            key={dir}
+            direction={dir as Direction}
+            onResizeStart={this.onResizeStart}
+            replaceStyles={handleStyles && handleStyles[dir as Direction]}
+            className={handleClasses && handleClasses[dir as Direction]}
+          >
+            {handleComponent && handleComponent[dir as Direction] ? handleComponent[dir as Direction] : null}
+          </Resizer>
+        );
       });
     // #93 Wrap the resize box in span (will not break 100% width/height)
     return (
